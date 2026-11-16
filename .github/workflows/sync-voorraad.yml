@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Haal Google Sheet op
         env:
-          SHEET_CSV_URL: ${{ vars.SHEET_CSV_URL }}
+          SHEET_CSV_URL: ${{ vars.SHEET_CSV_URL || 'https://docs.google.com/spreadsheets/d/1F2xApLBPTyLJ2J7L5RdmoIfpnKQuapcxxpC4HLqzEhg/export?format=csv' }}
         run: |
           if [ -z "$SHEET_CSV_URL" ]; then echo "SHEET_CSV_URL niet ingesteld"; exit 0; fi
           curl -fsSL "$SHEET_CSV_URL" -o nieuw.csv
