@@ -2743,7 +2743,7 @@ function renderTrucks(list) {
         <div class="truck-specs">
           <div class="spec-item"><span class="spec-label">${getT('specYear')}</span><span class="spec-value">${t2.bouwjaar}</span></div>
           <div class="spec-item"><span class="spec-label">${getT('specLift')}</span><span class="spec-value">${t2.hefvermogen}</span></div>
-          <div class="spec-item"><span class="spec-label">${getT('specHours')}</span><span class="spec-value">${t2.draaiuren.toLocaleString()} ${getT('hoursUnit')}</span></div>
+          <div class="spec-item"><span class="spec-label">${getT('specHours')}</span><span class="spec-value">${hoursText(t2)}</span></div>
           <div class="spec-item"><span class="spec-label">${getT('specFuel')}</span><span class="spec-value">${fuelLabel(t2.brandstof)}</span></div>
         </div>
         <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="event.stopPropagation();openProductPage(${t2.id})" data-i18n="truckDetailBtn">📋 Meer info &amp; foto's</button>
@@ -2839,7 +2839,7 @@ function openTruckModal(id) {
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
       <div class="spec-item"><span class="spec-label">${getT('specLift')}</span><span class="spec-value">${truck.hefvermogen}</span></div>
-      <div class="spec-item"><span class="spec-label">${getT('specHours')}</span><span class="spec-value">${truck.draaiuren.toLocaleString()} ${getT('hoursUnit')}</span></div>
+      <div class="spec-item"><span class="spec-label">${getT('specHours')}</span><span class="spec-value">${hoursText(truck)}</span></div>
       <div class="spec-item"><span class="spec-label">${getT('specYear')}</span><span class="spec-value">${truck.bouwjaar}</span></div>
       <div class="spec-item"><span class="spec-label">${getT('specFuel')}</span><span class="spec-value">${truck.brandstof}</span></div>
     </div>
@@ -2892,7 +2892,7 @@ function getTruckDetails(t2) {
     .replace('{bouwjaar}', t2.bouwjaar)
     .replace('{hef}', t2.hefvermogen)
     .replace('{fuel}', fuelSentence)
-    .replace('{uren}', t2.draaiuren.toLocaleString());
+    .replace('{uren}', t2.draaiuren ? t2.draaiuren.toLocaleString() : '–');
 
   // Indien echte foto's zijn opgegeven, gebruik die; anders nette placeholders met labels.
   const labelKeys = ['photoFront','photoSide','photoMast','photoCab','photoFront'];
@@ -2912,7 +2912,7 @@ function getTruckDetails(t2) {
     { k: getT('specYear'),   v: t2.bouwjaar },
     { k: getT('specFuel'),   v: fuelLabel(t2.brandstof) },
     { k: getT('specLift'),   v: t2.hefvermogen },
-    { k: getT('specHours'),  v: t2.draaiuren.toLocaleString() + ' ' + getT('hoursUnit') },
+    { k: getT('specHours'),  v: hoursText(t2) },
     { k: getT('specMast'),   v: t2.mast || (t2.hefkg >= 3000 ? 'Triplex' : 'Duplex') },
     { k: getT('specCondition'), v: t2.conditie || getT('condGood') },
   ];
@@ -3222,6 +3222,7 @@ window.addEventListener('pageshow', function(e) {
 // ══════════════════════════════════════════════
 // VOORRAAD LADEN (beheerd via /beheer)
 // ══════════════════════════════════════════════
+function hoursText(t){ return t.draaiuren ? t.draaiuren.toLocaleString()+' '+getT('hoursUnit') : '–'; }
 function esc(v){ return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function rebuildMerkFilter(){
   const sel = document.getElementById('filterMerk');
@@ -3271,7 +3272,11 @@ function sheetToTrucks(text){
     if(status==='verkocht') return;
     const b=g('brandstof').toLowerCase();
     const brandstof=b.startsWith('d')?'Diesel':(b.startsWith('g')?'Gas':'Elektrisch');
-    const hefkg=num(g('hefvermogen (kg)')||g('hefvermogen')), prijsNum=num(g('prijs'));
+    const hefRaw=(g('hefvermogen (kg)')||g('hefvermogen')).toLowerCase();
+    let hefkg=0;
+    if(/ton/.test(hefRaw)){ const f=parseFloat(hefRaw.replace(',','.').replace(/[^\d.]/g,'')); hefkg=isNaN(f)?0:Math.round(f*1000); }
+    else { hefkg=num(hefRaw); }
+    const prijsNum=num(g('prijs'));
     const fotos=[1,2,3,4,5,6,7,8].map(k=>photoUrl(g('foto '+k))).filter(Boolean);
     out.push({id:i+1,merk,type,bouwjaar:num(g('bouwjaar')),hefkg,hefvermogen:fmt(hefkg)+' kg',
       draaiuren:num(g('draaiuren')),prijsNum,prijs:prijsNum?'€ '+fmt(prijsNum):'Op aanvraag',brandstof,
