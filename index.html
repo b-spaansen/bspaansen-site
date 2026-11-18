@@ -3249,8 +3249,10 @@ function parseCSV(text){
   if(cur!==''||row.length){ row.push(cur); rows.push(row); }
   return rows;
 }
+let FOTO_MAP={};
 function photoUrl(u){
   u=(u||'').trim(); if(!u) return '';
+  if(FOTO_MAP[u]) return 'https://lh3.googleusercontent.com/d/'+FOTO_MAP[u]+'=w1600';
   const m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/)||u.match(/drive\.google\.com\/(?:open|uc|thumbnail)\?[^#]*id=([\w-]+)/);
   if(m) return 'https://lh3.googleusercontent.com/d/'+m[1]+'=w1600';
   return /^https?:\/\//.test(u) ? u : '';
@@ -3287,7 +3289,7 @@ function sheetToTrucks(text){
 }
 (function loadSheetStock(){
   if(!SHEET_CSV_URL) return;
-  fetch(SHEET_CSV_URL,{cache:'no-cache'}).then(r=>r.ok?r.text():null).then(txt=>{
+  fetch('fotos.json',{cache:'no-cache'}).then(r=>r.ok?r.json():{}).catch(()=>({})).then(m=>{ FOTO_MAP=m||{}; return fetch(SHEET_CSV_URL,{cache:'no-cache'}); }).then(r=>r.ok?r.text():null).then(txt=>{
     if(!txt) return;
     const list=sheetToTrucks(txt);
     if(!list) return;
