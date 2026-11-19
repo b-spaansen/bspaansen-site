@@ -3218,19 +3218,22 @@ async function submitContact() {
   const oldLabel = btn ? btn.innerHTML : '';
   if (btn) { btn.disabled = true; btn.textContent = '…'; }
   try {
-    const r = await fetch('https://api.web3forms.com/submit', {
+    const subj = 'Nieuwe aanvraag via b-spaansen.nl' + (what ? ' – ' + what : '');
+    const tryW3F = fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        access_key: WEB3FORMS_KEY,
-        subject: 'Nieuwe aanvraag via b-spaansen.nl' + (what ? ' – ' + what : ''),
-        from_name: 'B-Spaansen website',
-        name: naam, email: mail, replyto: mail, telefoon: tel, interesse: what || '-', bericht: msg,
-        botcheck: ''
-      })
-    });
-    const d = await r.json().catch(() => ({}));
-    if (r.ok && d.success) {
+      body: JSON.stringify({ access_key: WEB3FORMS_KEY, subject: subj, from_name: 'B-Spaansen website',
+        name: naam, email: mail, replyto: mail, telefoon: tel, interesse: what || '-', bericht: msg, botcheck: '' })
+    }).then(async r => { const d = await r.json().catch(() => ({})); return r.ok && d.success === true; }).catch(() => false);
+    // Tweede, onafhankelijke route (dubbele zekerheid)
+    const tryFS = fetch('https://formsubmit.co/ajax/dpolcovnicu@gmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ _subject: subj, _replyto: mail, _template: 'table', _captcha: 'false',
+        naam: naam, email: mail, telefoon: tel, interesse: what || '-', bericht: msg })
+    }).then(async r => { const d = await r.json().catch(() => ({})); return r.ok && (d.success === true || d.success === 'true'); }).catch(() => false);
+    const [a, b] = await Promise.all([tryW3F, tryFS]);
+    if (a || b) {
       f.forEach(x => x.value = '');
       showToast(fm('ok'));
     } else {
