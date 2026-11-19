@@ -3269,11 +3269,11 @@ function sheetToTrucks(text){
   rows.slice(1).forEach((r,i)=>{
     const g=n=>{ const k=col(n); return k<0?'':(r[k]||'').trim(); };
     const merk=g('merk'), type=g('type');
-    if(!merk||!type) return;
+    if(!merk||!type||/^[-–—\s]*$/.test(merk)||/^[-–—\s]*$/.test(type)) return;
     const status=g('status').toLowerCase();
     if(status==='verkocht') return;
     const b=g('brandstof').toLowerCase();
-    const brandstof=b.startsWith('d')?'Diesel':(b.startsWith('g')?'Gas':'Elektrisch');
+    const brandstof=/diesel/.test(b)?'Diesel':(/gas|lpg/.test(b)?'Gas':'Elektrisch');
     const hefRaw=(g('hefvermogen (kg)')||g('hefvermogen')).toLowerCase();
     let hefkg=0;
     if(/ton/.test(hefRaw)){ const f=parseFloat(hefRaw.replace(',','.').replace(/[^\d.]/g,'')); hefkg=isNaN(f)?0:Math.round(f*1000); }
