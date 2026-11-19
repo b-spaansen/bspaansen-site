@@ -1078,6 +1078,24 @@
       .toast { left:16px; right:16px; bottom:84px; transform:translateY(20px); opacity:0; }
       .toast.show { transform:translateY(0); opacity:1; }
     }
+  
+    /* ══════ MOBIEL UX v3 ══════ */
+    @media (max-width:768px) {
+      /* HERO v3: rustiger, foto zichtbaar, 1 duidelijke knop */
+      #home { min-height:0; height:calc(100svh - 124px); max-height:640px; padding:0 0 36px; align-items:flex-end; }
+      .hero-photo { object-position:68% center; }
+      .hero-accent-bar { display:none; }
+      .hero-overlay { background:linear-gradient(180deg, rgba(10,22,40,0.10) 0%, rgba(10,22,40,0.15) 35%, rgba(10,22,40,0.82) 72%, rgba(10,22,40,0.96) 100%); }
+      .hero-eyebrow { display:none; }
+      .hero-content { padding:0; }
+      .hero-title { font-size:clamp(30px,8.4vw,38px); line-height:1.08; margin-bottom:12px; letter-spacing:-0.01em; }
+      .hero-title em { display:block; }
+      .hero-desc { display:none; }
+      .hero-title { margin-bottom:22px; }
+      .hero-actions .whatsapp-btn { display:none; }
+      .hero-actions .btn { min-height:52px; }
+      .voorraad-header-cta { display:none; }
+    }
   </style>
 </head>
 <body>
@@ -3207,7 +3225,7 @@ async function submitContact() {
         access_key: WEB3FORMS_KEY,
         subject: 'Nieuwe aanvraag via b-spaansen.nl' + (what ? ' – ' + what : ''),
         from_name: 'B-Spaansen website',
-        name: naam, email: mail, telefoon: tel, interesse: what || '-', bericht: msg,
+        name: naam, email: mail, replyto: mail, telefoon: tel, interesse: what || '-', bericht: msg,
         botcheck: ''
       })
     });
