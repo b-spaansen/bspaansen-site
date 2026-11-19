@@ -12,7 +12,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Haal Google Sheet op
         env:
           SHEET_CSV_URL: ${{ vars.SHEET_CSV_URL || 'https://docs.google.com/spreadsheets/d/1F2xApLBPTyLJ2J7L5RdmoIfpnKQuapcxxpC4HLqzEhg/export?format=csv' }}
