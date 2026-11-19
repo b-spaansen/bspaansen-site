@@ -3100,11 +3100,51 @@ function goToContact(interest) {
   const c = document.getElementById('contact');
   if (c) c.scrollIntoView({ behavior: 'smooth' });
 }
-function submitContact() {
+const WEB3FORMS_KEY = '1e0ac408-9e63-441d-a27c-e5dd4b2230a1';
+const FORM_MSG = {
+  ok:{nl:'✅ Bericht verzonden! We nemen zo snel mogelijk contact op.',en:'✅ Message sent! We will contact you as soon as possible.',de:'✅ Nachricht gesendet! Wir melden uns so schnell wie möglich.',fr:'✅ Message envoyé ! Nous vous contacterons au plus vite.',es:'✅ ¡Mensaje enviado! Nos pondremos en contacto lo antes posible.',it:'✅ Messaggio inviato! Vi contatteremo il prima possibile.',ro:'✅ Mesaj trimis! Vă vom contacta cât mai curând.',ru:'✅ Сообщение отправлено! Мы свяжемся с вами в ближайшее время.'},
+  need:{nl:'⚠️ Vul uw naam, een geldig e-mailadres en uw bericht in.',en:'⚠️ Please fill in your name, a valid email address and your message.',de:'⚠️ Bitte geben Sie Name, gültige E-Mail-Adresse und Nachricht ein.',fr:'⚠️ Veuillez indiquer votre nom, une adresse e-mail valide et votre message.',es:'⚠️ Indique su nombre, un correo válido y su mensaje.',it:'⚠️ Inserisci nome, un indirizzo e-mail valido e il messaggio.',ro:'⚠️ Completați numele, un e-mail valid și mesajul.',ru:'⚠️ Укажите имя, действительный e-mail и сообщение.'},
+  fail:{nl:'⚠️ Versturen is niet gelukt. Stuur ons even een WhatsApp-bericht of bel ons.',en:'⚠️ Sending failed. Please message us on WhatsApp or call us.',de:'⚠️ Senden fehlgeschlagen. Schreiben Sie uns per WhatsApp oder rufen Sie an.',fr:'⚠️ L’envoi a échoué. Écrivez-nous sur WhatsApp ou appelez-nous.',es:'⚠️ No se pudo enviar. Escríbanos por WhatsApp o llámenos.',it:'⚠️ Invio non riuscito. Scrivici su WhatsApp o chiamaci.',ro:'⚠️ Trimiterea a eșuat. Scrieți-ne pe WhatsApp sau sunați-ne.',ru:'⚠️ Не удалось отправить. Напишите нам в WhatsApp или позвоните.'}
+};
+const fm = k => FORM_MSG[k][currentLang] || FORM_MSG[k].en;
+async function submitContact() {
+  const box = document.querySelector('#contact .form-collapsible');
+  if (!box) return;
+  const f = box.querySelectorAll('input, textarea');
+  const naam = (f[0].value || '').trim(), tel = (f[1].value || '').trim(),
+        mail = (f[2].value || '').trim(), msg = (f[3].value || '').trim();
   const chip = document.querySelector('.interest-chip.active');
   const what = chip ? chip.textContent.trim() : '';
-  const base = getT('contactToast') || '✅ Bericht verzonden! We nemen zo snel mogelijk contact op.';
-  showToast(what ? '✅ ' + what + ' — ' + base.replace(/^✅\s*/, '') : base);
+  if (!naam || !mail || !msg || !/^\S+@\S+\.\S+$/.test(mail)) {
+    showToast(fm('need'));
+    return;
+  }
+  const btn = box.querySelector('.btn-primary');
+  const oldLabel = btn ? btn.innerHTML : '';
+  if (btn) { btn.disabled = true; btn.textContent = '…'; }
+  try {
+    const r = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: 'Nieuwe aanvraag via b-spaansen.nl' + (what ? ' – ' + what : ''),
+        from_name: 'B-Spaansen website',
+        name: naam, email: mail, telefoon: tel, interesse: what || '-', bericht: msg,
+        botcheck: ''
+      })
+    });
+    const d = await r.json().catch(() => ({}));
+    if (r.ok && d.success) {
+      f.forEach(x => x.value = '');
+      showToast(fm('ok'));
+    } else {
+      showToast(fm('fail'));
+    }
+  } catch (e) {
+    showToast(fm('fail'));
+  }
+  if (btn) { btn.disabled = false; btn.innerHTML = oldLabel; }
 }
 function toggleMenu() {
   const menu = document.getElementById('mobileMenu');
