@@ -90,7 +90,9 @@ td,th{text-align:left;padding:10px 12px;border-bottom:1px solid #e2e8f0}th{width
 footer{background:var(--navy);color:#cbd5e1;padding:36px 0;font-size:15px}footer a{color:var(--accent);text-decoration:none}
 @media(max-width:700px){.gal{grid-template-columns:1fr 1fr;gap:8px}.hero{padding:30px 0 26px}.bar nav a:not(.tel){display:none}.bar img{height:36px}.price{font-size:34px}.btn{flex:1}}"""
 
-def shell(title, desc, canonical, ld, body, og_img=None):
+LANDING = ['gebruikte-heftruck-kopen', 'heftruck-verkopen-inruilen', 'heftruck-huren', 'heftruckdealer-noord-holland']
+
+def shell(title, desc, canonical, ld, body, og_img=None, extra_css=''):
     return f'''<!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -108,7 +110,7 @@ def shell(title, desc, canonical, ld, body, og_img=None):
 <meta property="og:image" content="{og_img or BASE + '/logo.png'}">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<style>{CSS}</style>
+<style>{CSS}{extra_css}</style>
 </head>
 <body>
 <header><div class="bar"><a href="/"><img src="/logo.png" alt="B-Spaansen Heftrucks"></a>
@@ -118,7 +120,7 @@ def shell(title, desc, canonical, ld, body, og_img=None):
 Schelphorst 22, A1 · 1771 SL Wieringerwerf<br>
 <a href="tel:+31629061612">+31 6 29061612</a> · <a href="mailto:Barryspaansen@gmail.com">Barryspaansen@gmail.com</a><br>
 Open donderdag t/m zondag, 08:00 – 19:00<br><br>
-<a href="/">Home</a> · <a href="/voorraad.html">Voorraad</a> · <a href="/faq.html">Kennisbank</a> · <a href="/bezoek-onze-locatie.html">Showroom</a></div></footer>
+<a href="/">Home</a> · <a href="/voorraad.html">Voorraad</a> · <a href="/faq.html">Kennisbank</a> · <a href="/bezoek-onze-locatie.html">Showroom</a><br><a href="/gebruikte-heftruck-kopen.html">Heftruck kopen</a> · <a href="/heftruck-verkopen-inruilen.html">Verkopen of inruilen</a> · <a href="/heftruck-huren.html">Heftruck huren</a> · <a href="/heftruckdealer-noord-holland.html">Dealer Noord-Holland</a></div></footer>
 </body></html>'''
 
 SELLER = {"@type": "AutoDealer", "name": "B-Spaansen In- en Verkoop Heftrucks", "url": BASE + "/", "telephone": "+31629061612",
@@ -196,7 +198,7 @@ def index_page(ts):
     return shell(f"Voorraad gebruikte heftrucks ({len(ts)}) | B-Spaansen Wieringerwerf", "Actuele voorraad gebruikte heftrucks van B-Spaansen in Wieringerwerf: Toyota, Doosan en meer. Met foto's, prijs en specificaties.", BASE + "/voorraad.html", ld, body)
 
 def sitemap(ts):
-    urls = [('/', '1.0'), ('/voorraad.html', '0.9'), ('/faq.html', '0.8'), ('/bezoek-onze-locatie.html', '0.7')] + [(f"/heftruck/{t['slug']}.html", '0.8') for t in ts]
+    urls = [('/', '1.0'), ('/voorraad.html', '0.9'), ('/faq.html', '0.8'), ('/bezoek-onze-locatie.html', '0.7')] + [(f'/{n}.html', '0.9') for n in LANDING] + [(f"/heftruck/{t['slug']}.html", '0.8') for t in ts]
     x = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     x += ''.join(f'  <url><loc>{BASE}{u}</loc><lastmod>{TODAY}</lastmod><priority>{p}</priority></url>\n' for u, p in urls)
     return x + '</urlset>\n'

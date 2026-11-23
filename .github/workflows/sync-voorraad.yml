@@ -23,12 +23,14 @@ jobs:
           head -1 nieuw.csv | tr 'A-Z' 'a-z' | grep -q 'merk' && head -1 nieuw.csv | tr 'A-Z' 'a-z' | grep -q 'type' || { echo "Geen geldige voorraadlijst"; exit 1; }
           mv nieuw.csv voorraad.csv
       - name: Statische voorraadpagina's bouwen (voor zoekmachines en AI)
-        run: python3 tools/build_voorraad.py
+        run: |
+          python3 tools/build_voorraad.py
+          python3 tools/build_landing.py
       - name: Opslaan als er iets veranderd is
         run: |
           git config user.name "voorraad-bot"
           git config user.email "voorraad-bot@users.noreply.github.com"
-          git add -A voorraad.csv voorraad.html heftruck sitemap.xml
+          git add -A voorraad.csv voorraad.html heftruck sitemap.xml gebruikte-heftruck-kopen.html heftruck-verkopen-inruilen.html heftruck-huren.html heftruckdealer-noord-holland.html
           git diff --cached --quiet && echo "Geen wijzigingen" && exit 0
           git commit -m "Voorraad bijgewerkt vanuit Google Sheet"
           git push

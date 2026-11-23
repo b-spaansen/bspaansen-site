@@ -6,9 +6,9 @@ BASE = "https://b-spaansen.nl"
 DATE = "2026-11-23"
 WA = "https://wa.me/31629061612?text=Hallo%2C%20ik%20heb%20een%20vraag%20over%20heftrucks."
 CTA = {
- "koop": ("Bekijk de actuele voorraad", "index.html#voorraad"),
- "huur": ("Vraag een huurofferte aan", "index.html#contact"),
- "inruil": ("Vraag een vrijblijvend bod aan", "index.html#contact"),
+ "koop": ("Bekijk de actuele voorraad", "voorraad.html"),
+ "huur": ("Vraag een huurofferte aan", "heftruck-huren.html"),
+ "inruil": ("Vraag een vrijblijvend bod aan", "heftruck-verkopen-inruilen.html"),
  "keur": ("Vraag een keuring aan", "index.html#contact"),
  "loc": ("Plan een bezichtiging", "bezoek-onze-locatie.html"),
 }
