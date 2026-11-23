@@ -42,7 +42,8 @@
     "openingHoursSpecification": [
       { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Thursday","Friday","Saturday","Sunday"], "opens": "08:00", "closes": "19:00" }
     ],
-    "sameAs": ["https://maps.app.goo.gl/Mq6roGmAHBvUaLQg9"]
+    "sameAs": ["https://maps.app.goo.gl/Mq6roGmAHBvUaLQg9"],
+    "review": [{"@type": "Review", "author": {"@type": "Organization", "name": "Naus & Naus"}, "reviewBody": "Fijne zaak. Bij aankomst kopje koffie en een mooie deal gesloten."}, {"@type": "Review", "author": {"@type": "Person", "name": "Erwin Gelissen"}, "reviewBody": "Top service en een mooie en goede Toyota gekocht. Bedankt voor alles."}, {"@type": "Review", "author": {"@type": "Person", "name": "L.J. de Greeuw"}, "reviewBody": "Keurige heftruck, scherpe prijs."}]
   }
   </script>
 
@@ -388,6 +389,11 @@
     @media (max-width:480px) { .svc-grid { grid-template-columns:1fr; } }
 
     /* FAQ */
+    .rev-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1000px; margin:0 auto; }
+    .rev-card { background:var(--white); border:1px solid var(--gray-200); border-left:4px solid var(--accent); border-radius:10px; padding:24px; box-shadow:0 2px 12px rgba(0,0,0,.05); }
+    .rev-card blockquote { font-size:17px; line-height:1.6; color:var(--gray-800); margin:0 0 14px; }
+    .rev-card cite { font-style:normal; font-weight:600; color:var(--navy); font-size:15px; }
+    @media (max-width:768px){ .rev-grid{ grid-template-columns:1fr; gap:14px; } .rev-card{ padding:20px; } }
     .faq-list { max-width:780px; margin:0 auto; display:flex; flex-direction:column; gap:12px; }
     .faq-item { background:var(--white); border:1px solid var(--gray-200); border-radius:10px; overflow:hidden; transition:border-color .2s; }
     .faq-item[open] { border-color:var(--accent); }
@@ -1282,6 +1288,17 @@
   </div>
 </section>
 
+<!-- ══════════ REVIEWS ══════════ -->
+<section id="reviews" class="section section-gray">
+  <div class="container">
+    <div class="why-head reveal">
+      <span class="badge">Klantervaringen</span>
+      <h2 class="section-title" style="color:var(--navy)">Wat klanten over ons zeggen</h2>
+    </div>
+    <div class="rev-grid reveal reveal-delay-1"><figure class="rev-card"><blockquote>“Fijne zaak. Bij aankomst kopje koffie en een mooie deal gesloten.”</blockquote><figcaption><cite>Naus &amp; Naus</cite></figcaption></figure><figure class="rev-card"><blockquote>“Top service en een mooie en goede Toyota gekocht. Bedankt voor alles.”</blockquote><figcaption><cite>Erwin Gelissen</cite></figcaption></figure><figure class="rev-card"><blockquote>“Keurige heftruck, scherpe prijs.”</blockquote><figcaption><cite>L.J. de Greeuw</cite></figcaption></figure></div>
+  </div>
+</section>
+
 <!-- ══════════ FAQ ══════════ -->
 <section id="faq" class="section" style="background:var(--white)">
   <div class="container">
@@ -1595,7 +1612,7 @@ const t = {
     footerNav:'Navigatie', footerStock:'Aanbod', footerServices:'Diensten',
     footerElec:'Elektrische heftrucks', footerDiesel:'Dieselheftrucks', footerGas:'Gasheftrucks',
     footerReach:'Reachtrucks', footerPallet:'Pallettransporters', footerAdvice:'Advies op maat',
-    footerCopy:'© 2025 B-Spaansen In- en Verkoop Heftrucks · Alle rechten voorbehouden',
+    footerCopy:'© 2026 B-Spaansen In- en Verkoop Heftrucks · Alle rechten voorbehouden',
     footerPrivacy:'Privacybeleid', footerTerms:'Algemene Voorwaarden',
     blogItems:[
       {icon:'💰',cat:'Populair',title:'Hoeveel kost een tweedehands heftruck?',excerpt:'Wat zijn de gemiddelde prijzen op de markt en welke factoren bepalen deze prijzen?'},
@@ -1691,7 +1708,7 @@ const t = {
     footerNav:'Navigation', footerStock:'Stock', footerServices:'Services',
     footerElec:'Electric forklifts', footerDiesel:'Diesel forklifts', footerGas:'Gas forklifts',
     footerReach:'Reach trucks', footerPallet:'Pallet transporters', footerAdvice:'Tailored advice',
-    footerCopy:'© 2025 B-Spaansen In- en Verkoop Heftrucks · All rights reserved',
+    footerCopy:'© 2026 B-Spaansen In- en Verkoop Heftrucks · All rights reserved',
     footerPrivacy:'Privacy Policy', footerTerms:'Terms & Conditions',
     blogItems:[
       {icon:'🔍',cat:'Buying advice',title:'What to look for when buying a forklift?',excerpt:'From year to operating hours and inspection tips: a complete guide for the second-hand buyer.'},
@@ -1778,7 +1795,7 @@ navRental:'Gabelstapler mieten', navKeuren:'Gabelstapler prüfen lassen', keuren
     footerNav:'Navigation', footerStock:'Bestand', footerServices:'Dienstleistungen',
     footerElec:'Elektro-Gabelstapler', footerDiesel:'Diesel-Gabelstapler', footerGas:'Gas-Gabelstapler',
     footerReach:'Schubmaststapler', footerPallet:'Palettentransporter', footerAdvice:'Individuelle Beratung',
-    footerCopy:'© 2025 B-Spaansen In- en Verkoop Heftrucks · Alle Rechte vorbehalten',
+    footerCopy:'© 2026 B-Spaansen In- en Verkoop Heftrucks · Alle Rechte vorbehalten',
     footerPrivacy:'Datenschutzrichtlinie', footerTerms:'Allgemeine Geschäftsbedingungen',
     blogItems:[
       {icon:'🔍',cat:'Kauftipps',title:'Worauf sollte man beim Kauf eines Gabelstaplers achten?',excerpt:'Von Baujahr bis Betriebsstunden und Inspektionstipps: ein kompletter Leitfaden für Gebrauchtkäufer.'},
@@ -1865,7 +1882,7 @@ navRental:'Gabelstapler mieten', navKeuren:'Gabelstapler prüfen lassen', keuren
     footerNav:'Navigation',footerStock:'Stock',footerServices:'Services',
     footerElec:'Chariots électriques',footerDiesel:'Chariots diesel',footerGas:'Chariots à gaz',
     footerReach:'Chariots à mât rétractable',footerPallet:'Transpalettes',footerAdvice:'Conseils personnalisés',
-    footerCopy:'© 2025 B-Spaansen · Tous droits réservés',
+    footerCopy:'© 2026 B-Spaansen · Tous droits réservés',
     footerPrivacy:'Politique de confidentialité',footerTerms:'Conditions générales',
     blogItems:[
       {icon:'🔍',cat:'Conseils achat',title:'À quoi faire attention lors de l\'achat d\'un chariot ?',excerpt:'Du millésime aux heures d\'utilisation : un guide complet pour l\'acheteur de l\'occasion.'},
@@ -1952,7 +1969,7 @@ navRental:'Gabelstapler mieten', navKeuren:'Gabelstapler prüfen lassen', keuren
     footerNav:'Navegación',footerStock:'Inventario',footerServices:'Servicios',
     footerElec:'Carretillas eléctricas',footerDiesel:'Carretillas diésel',footerGas:'Carretillas de gas',
     footerReach:'Carretillas retráctiles',footerPallet:'Transpaletas',footerAdvice:'Asesoramiento a medida',
-    footerCopy:'© 2025 B-Spaansen · Todos los derechos reservados',
+    footerCopy:'© 2026 B-Spaansen · Todos los derechos reservados',
     footerPrivacy:'Política de privacidad',footerTerms:'Términos y condiciones',
     blogItems:[
       {icon:'🔍',cat:'Consejos de compra',title:'¿En qué fijarse al comprar una carretilla?',excerpt:'Del año a las horas de uso y consejos de inspección: una guía completa para el comprador de segunda mano.'},
@@ -2027,7 +2044,7 @@ navRental:'Gabelstapler mieten', navKeuren:'Gabelstapler prüfen lassen', keuren
     footerNav:'Navigazione',footerStock:'Magazzino',footerServices:'Servizi',
     footerElec:'Carrelli elettrici',footerDiesel:'Carrelli diesel',footerGas:'Carrelli a gas',
     footerReach:'Reach truck',footerPallet:'Transpallet',footerAdvice:'Consulenza su misura',
-    footerCopy:'© 2025 B-Spaansen · Tutti i diritti riservati',
+    footerCopy:'© 2026 B-Spaansen · Tutti i diritti riservati',
     footerPrivacy:'Informativa sulla privacy',footerTerms:'Termini e condizioni',
     blogItems:[
       {icon:'🔍',cat:'Consigli acquisto',title:'A cosa prestare attenzione quando si compra un carrello?',excerpt:'Dal modello alle ore d\'uso e consigli di ispezione: una guida completa per l\'acquirente dell\'usato.'},
@@ -2114,7 +2131,7 @@ navRental:'Gabelstapler mieten', navKeuren:'Gabelstapler prüfen lassen', keuren
     footerNav:'Navigare',footerStock:'Stoc',footerServices:'Servicii',
     footerElec:'Stivuitoare electrice',footerDiesel:'Stivuitoare diesel',footerGas:'Stivuitoare gaz',
     footerReach:'Reach truck',footerPallet:'Transpalete',footerAdvice:'Consultanță personalizată',
-    footerCopy:'© 2025 B-Spaansen · Toate drepturile rezervate',
+    footerCopy:'© 2026 B-Spaansen · Toate drepturile rezervate',
     footerPrivacy:'Politica de confidențialitate',footerTerms:'Termeni și condiții',
     blogItems:[
       {icon:'🔍',cat:'Sfaturi cumpărare',title:'La ce să fii atent când cumperi un stivuitor?',excerpt:'De la an la ore de funcționare și sfaturi de inspecție: un ghid complet pentru cumpărătorul second-hand.'},
@@ -2201,7 +2218,7 @@ navRental:'Gabelstapler mieten', navKeuren:'Gabelstapler prüfen lassen', keuren
     footerNav:'Навигация',footerStock:'Склад',footerServices:'Услуги',
     footerElec:'Электрические погрузчики',footerDiesel:'Дизельные погрузчики',footerGas:'Газовые погрузчики',
     footerReach:'Ричтраки',footerPallet:'Паллетоперевозчики',footerAdvice:'Индивидуальные консультации',
-    footerCopy:'© 2025 B-Spaansen · Все права защищены',
+    footerCopy:'© 2026 B-Spaansen · Все права защищены',
     footerPrivacy:'Политика конфиденциальности',footerTerms:'Условия использования',
     blogItems:[
       {icon:'🔍',cat:'Советы по покупке',title:'На что обратить внимание при покупке погрузчика?',excerpt:'От года выпуска до часов работы и советов по проверке: полное руководство для покупателя.'},
