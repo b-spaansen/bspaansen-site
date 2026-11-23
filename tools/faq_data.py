@@ -33,7 +33,7 @@ CATS = [
    "Bij B-Spaansen kan dat op afspraak in Wieringerwerf. Open op donderdag t/m zondag van 08:00 tot 19:00.", "loc"),
   ("Kan een gebruikte heftruck worden bezorgd?",
    "Ja, via eigen transport van de verkoper of een transportbedrijf. Transportkosten hangen af van afstand en type machine; branche-bronnen noemen een indicatie van circa € 200 tot € 600 voor gangbare trajecten. Vraag altijd vooraf een prijs.",
-   "B-Spaansen verzorgt transport in overleg, door heel Nederland. Vraag naar de mogelijkheden voor jouw locatie.", "koop"),
+   "Transport door heel Nederland is bij B-Spaansen bespreekbaar. Vraag naar de mogelijkheden en kosten voor jouw locatie.", "koop"),
  ]),
 
  ("tweedehands-heftrucks", "Tweedehands heftrucks beoordelen", "koop", [
@@ -317,7 +317,7 @@ CATS = [
   ("Hoe kan ik contact opnemen met B-Spaansen?",
    "Via WhatsApp of telefoon op +31 6 29061612, via e-mail op Barryspaansen@gmail.com of via het contactformulier op de website.", "", "loc"),
   ("Levert B-Spaansen door heel Nederland?",
-   "Transport is in overleg mogelijk door heel Nederland. We bespreken de snelste en voordeligste optie voor jouw locatie.", "", "koop"),
+   "Transport door heel Nederland is bespreekbaar. Neem contact op, dan bespreken we de mogelijkheden voor jouw locatie.", "", "koop"),
   ("Waar vind ik de actuele voorraad van B-Spaansen?",
    "Op de homepage, in het onderdeel 'Onze actuele voorraad' en op de pagina met voorraadoverzicht. De voorraad wordt regelmatig bijgewerkt; prijzen zijn exclusief btw.", "", "koop"),
   ("Kan ik de heftrucks van B-Spaansen eerst bekijken?",
