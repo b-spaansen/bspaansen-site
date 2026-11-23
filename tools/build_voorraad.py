@@ -124,6 +124,7 @@ Open donderdag t/m zondag, 08:00 – 19:00<br><br>
 SELLER = {"@type": "AutoDealer", "name": "B-Spaansen In- en Verkoop Heftrucks", "url": BASE + "/", "telephone": "+31629061612",
           "address": {"@type": "PostalAddress", "streetAddress": "Schelphorst 22, A1", "postalCode": "1771 SL", "addressLocality": "Wieringerwerf", "addressCountry": "NL"}}
 
+def kind(t): return 'heftruck' if t['hef'] else 'machine'
 def title_of(t):
     return f"{t['merk']} {t['type']}" + (f" ({t['year']})" if t['year'] else '')
 
@@ -137,11 +138,11 @@ def truck_page(t):
     if t['mast']: specs.append(('Mast', t['mast']))
     if t['conditie']: specs.append(('Conditie', t['conditie']))
     specs.append(('Status', 'Gereserveerd' if t['status'] == 'gereserveerd' else 'Beschikbaar'))
-    desc = f"Gebruikte {name}" + (f", {fmt(t['hef'])} kg hefvermogen" if t['hef'] else '') + (f", {t['brand'].lower()}" if t['brand'] else '') + \
+    desc = f"Gebruikte {name}" if t['hef'] else f"{name}"; desc = desc + (f", {fmt(t['hef'])} kg hefvermogen" if t['hef'] else '') + (f", {t['brand'].lower()}" if t['brand'] else '') + \
            (f", {fmt(t['uren'])} draaiuren" if t['uren'] else '') + (f", € {fmt(t['prijs'])} excl. btw" if t['prijs'] else '') + \
            ". Te koop bij B-Spaansen in Wieringerwerf, bezichtigen op afspraak."
-    ld = {"@context": "https://schema.org", "@type": "Product", "name": f"{name} heftruck", "description": desc,
-          "brand": {"@type": "Brand", "name": t['merk']}, "model": t['type'], "category": "Heftruck",
+    ld = {"@context": "https://schema.org", "@type": "Product", "name": (f"{name} heftruck" if t['hef'] else name), "description": desc,
+          "brand": {"@type": "Brand", "name": t['merk']}, "model": t['type'], "category": "Heftruck" if t['hef'] else "Overig",
           "itemCondition": "https://schema.org/UsedCondition", "url": f"{BASE}/heftruck/{t['slug']}.html",
           "additionalProperty": [{"@type": "PropertyValue", "name": k, "value": v} for k, v in specs if k not in ('Merk', 'Type')]}
     if t['fotos']: ld["image"] = t['fotos']
@@ -155,7 +156,7 @@ def truck_page(t):
         {"@type": "ListItem", "position": 1, "name": "Home", "item": BASE + "/"},
         {"@type": "ListItem", "position": 2, "name": "Voorraad", "item": BASE + "/voorraad.html"},
         {"@type": "ListItem", "position": 3, "name": name, "item": f"{BASE}/heftruck/{t['slug']}.html"}]}
-    gal = ''.join(f'<img src="{e(p)}" alt="{e(name)} heftruck, foto {i}" loading="{"eager" if i == 1 else "lazy"}">' for i, p in enumerate(t['fotos'], 1))
+    gal = ''.join(f'<img src="{e(p)}" alt="{e(name)}{' heftruck' if t['hef'] else ''}, foto {i}" loading="{"eager" if i == 1 else "lazy"}">' for i, p in enumerate(t['fotos'], 1))
     paras = ''.join(f'<p>{e(x.strip())}</p>' for x in re.split(r'\n\s*\n|\n', t['besch']) if x.strip())
     price = (f'<div class="price">€ {fmt(t["prijs"])}<small>Prijs excl. btw · vrijblijvend bezichtigen op afspraak</small></div>'
              if t['prijs'] else '<div class="price" style="font-size:28px">Prijs op aanvraag</div>')
@@ -165,7 +166,7 @@ def truck_page(t):
 <div class="crumbs"><a href="/">Home</a> › <a href="/voorraad.html">Voorraad</a> › {e(name)}</div>
 {'<span class="badge">Gereserveerd</span><br>' if t['status'] == 'gereserveerd' else ''}
 <h1>{e(t['merk'])} <em>{e(t['type'])}</em>{' · ' + str(t['year']) if t['year'] else ''}</h1>
-<p class="sub">Gebruikte heftruck{' · ' + e(t['brand']) if t['brand'] else ''}{' · ' + fmt(t['hef']) + ' kg' if t['hef'] else ''}</p></div></section>
+<p class="sub">{'Gebruikte heftruck' if t['hef'] else 'Te koop bij B-Spaansen'}{' · ' + e(t['brand']) if t['brand'] else ''}{' · ' + fmt(t['hef']) + ' kg' if t['hef'] else ''}</p></div></section>
 <main><div class="wrap">
 <div class="gal">{gal}</div>
 {price}
@@ -176,7 +177,7 @@ def truck_page(t):
 <a class="btn" style="background:#e2e8f0" href="tel:+31629061612">Bel +31 6 29061612</a></div>
 <p style="color:var(--mut);font-size:15px">Zoek je iets anders? Bekijk de <a href="/voorraad.html">complete voorraad</a> of lees de <a href="/faq.html">kennisbank</a>. Transport door heel Nederland is bespreekbaar.</p>
 </div></main>'''
-    page = shell(f"{name} te koop – gebruikte heftruck | B-Spaansen", desc, f"{BASE}/heftruck/{t['slug']}.html", [ld, crumbs], body, t['fotos'][0] if t['fotos'] else None)
+    page = shell((f"{name} te koop – gebruikte heftruck | B-Spaansen" if t['hef'] else f"{name} te koop | B-Spaansen"), desc, f"{BASE}/heftruck/{t['slug']}.html", [ld, crumbs], body, t['fotos'][0] if t['fotos'] else None)
     return page
 
 def index_page(ts):
@@ -184,7 +185,7 @@ def index_page(ts):
           "itemListElement": [{"@type": "ListItem", "position": i, "url": f"{BASE}/heftruck/{t['slug']}.html", "name": title_of(t)} for i, t in enumerate(ts, 1)]}
     cards = ''
     for t in ts:
-        img = f'<img src="{e(t["fotos"][0])}" alt="{e(title_of(t))} heftruck" loading="lazy">' if t['fotos'] else ''
+        img = f'<img src="{e(t["fotos"][0])}" alt="{e(title_of(t))}" loading="lazy">' if t['fotos'] else ''
         meta = ' · '.join(x for x in [t['brand'], f"{fmt(t['hef'])} kg" if t['hef'] else '', f"{fmt(t['uren'])} uur" if t['uren'] else ''] if x)
         cards += f'<a class="card" href="/heftruck/{t["slug"]}.html">{img}<div><h2>{e(title_of(t))}</h2><p>{e(meta)}</p><p class="p">{"€ " + fmt(t["prijs"]) + " excl. btw" if t["prijs"] else "Prijs op aanvraag"}{" · Gereserveerd" if t["status"] == "gereserveerd" else ""}</p></div></a>'
     body = f'''<section class="hero"><div class="wrap"><div class="crumbs"><a href="/">Home</a> › Voorraad</div>
