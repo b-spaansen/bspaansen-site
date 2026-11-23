@@ -155,11 +155,8 @@ def truck_page(t):
         offer["price"] = str(t['prijs']); offer["valueAddedTaxIncluded"] = False
     ld["offers"] = offer
     if not t['prijs']:
-        # Zonder prijs is Product/Offer ongeldig voor Google: dan alleen een gewone pagina met omschrijving.
-        ld = {"@context": "https://schema.org", "@type": "WebPage", "name": f"{name} te koop", "description": desc,
-              "url": f"{BASE}/heftruck/{t['slug']}.html", "inLanguage": "nl-NL", "dateModified": TODAY, "publisher": SELLER,
-              "about": {"@type": "Thing", "name": name, "description": desc}}
-        if t['fotos']: ld["primaryImageOfPage"] = {"@type": "ImageObject", "url": t['fotos'][0]}
+        # Prijs op aanvraag: wel productgegevens, geen Offer (er is geen prijs om te noemen).
+        ld.pop("offers", None)
     crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": BASE + "/"},
         {"@type": "ListItem", "position": 2, "name": "Voorraad", "item": BASE + "/voorraad.html"},
