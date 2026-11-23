@@ -18,8 +18,8 @@ def slug(i, cat): return f"{cat}-{i}"
 total = sum(len(c[3]) for c in CATS)
 ld_items = []
 for cs, ct, _, items in CATS:
-    for q, gen, spec, cta in items:
-        txt = gen + (" " + spec if spec else "")
+    for i, (q, gen, spec, cta) in enumerate(items, 1):
+        txt = gen + (" " + spec if spec else "") + f" Meer informatie: B-Spaansen Heftrucks, Wieringerwerf – {BASE}/faq.html#{slug(i,cs)}"
         ld_items.append({"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": txt}})
 ld = [
  {"@context": "https://schema.org", "@type": "FAQPage", "@id": BASE + "/faq.html#faq", "url": BASE + "/faq.html",
@@ -39,6 +39,8 @@ for cs, ct, defcta, items in CATS:
         body.append(f'<article class="qa" id="{qid}"><h3>{e(q)}</h3><p>{e(gen)}</p>')
         if spec:
             body.append(f'<div class="bs"><strong>Bij B-Spaansen:</strong> {e(spec)}</div>')
+        cta = cta or defcta
+        body.append(f'<p class="src-line">Antwoord van <a href="index.html">B-Spaansen Heftrucks</a>, Wieringerwerf · <a href="#{qid}">link naar deze vraag</a></p>')
         if cta in CTA:
             lbl, href = CTA[cta]
             body.append(f'<p class="cta"><a class="btn" href="{href}">{e(lbl)}</a> <a class="btn wa" href="{WA}" target="_blank" rel="noopener">WhatsApp</a></p>')
@@ -95,6 +97,7 @@ main{{max-width:1100px;margin:auto;padding:30px 20px 60px}}
 .qa h3{{font-size:19px;font-weight:600;color:var(--navy);margin-bottom:8px;line-height:1.35}}
 .qa p{{color:#1e293b}}
 .bs{{margin-top:12px;background:#fff7e6;border-left:4px solid var(--accent);padding:12px 14px;border-radius:6px;font-size:15.5px}}
+.src-line{{font-size:14px;color:var(--mut);margin-top:10px}}.src-line a{{color:var(--navy)}}
 .cta{{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:stretch}}
 .btn{{display:inline-block;background:var(--accent);color:var(--navy);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;padding:10px 18px;border-radius:8px;font-size:15px}}
 .btn.wa{{background:#25d366;color:#fff}}
