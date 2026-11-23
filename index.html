@@ -1139,6 +1139,14 @@
       .hero-rev .hr-bot { display:flex; align-items:center; gap:7px; font-size:14px; color:var(--gray-600); }
       .hero-rev .gmark { flex:none; display:block; }
     }
+
+    /* Mobiel menu: onderste taalknoppen bereikbaar (scrollen + ruimte boven de bel/WhatsApp-balk) */
+    @media (max-width:768px) {
+      .mobile-menu-panel { height:100dvh; max-height:100dvh; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; padding-bottom:calc(96px + env(safe-area-inset-bottom)); }
+      .mobile-menu-links a { padding-top:14px; padding-bottom:14px; }
+      .mobile-lang-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+      .mobile-lang-item { justify-content:center; padding:10px 0; min-height:44px; }
+    }
 </style>
 </head>
 <body>
