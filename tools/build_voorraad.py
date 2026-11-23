@@ -103,7 +103,10 @@ def shell(title, desc, canonical, ld, body, og_img=None, extra_css=''):
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#0a1628">
 <link rel="canonical" href="{canonical}">
-<link rel="icon" href="/logo.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="website"><meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{canonical}">
 <meta property="og:locale" content="nl_NL"><meta property="og:site_name" content="B-Spaansen Heftrucks">
