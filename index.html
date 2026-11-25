@@ -3518,7 +3518,7 @@ function sheetToTrucks(text){
     const prijsNum=num(g('prijs'));
     const fotos=[1,2,3,4,5,6,7,8].map(k=>photoUrl(g('foto '+k))).filter(Boolean);
     out.push({id:i+1,merk,type,bouwjaar:num(g('bouwjaar')),hefkg,hefvermogen:fmt(hefkg)+' kg',
-      draaiuren:num(g('draaiuren')),prijsNum,prijs:prijsNum?'€ '+fmt(prijsNum):'Op aanvraag',brandstof,
+      draaiuren:num(g('draaiuren')),prijsNum,prijs:prijsNum?'€ '+fmt(prijsNum):'Prijs op aanvraag',brandstof,
       status:status==='gereserveerd'?'gereserveerd':'beschikbaar',mast:g('mast'),conditie:g('conditie'),
       beschrijving:g('beschrijving'),fotos});
   });
